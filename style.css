@@ -67,6 +67,19 @@ nav {
   font-size: 1.5rem;
 }
 
+#desktop-nav a{
+  color: whitesmoke;
+  text-decoration: none;
+  text-decoration-color: darkgray;
+}
+
+
+#desktop-nav a:hover{
+  color: grey;
+  text-decoration: underline;
+  text-underline-offset: 1rem;
+  text-decoration-color: rgb(181, 181, 181);
+}
 
 a {
   color: black;
@@ -82,19 +95,7 @@ a:hover {
   text-decoration-color: rgb(181, 181, 181);
 }
 
-a1 {
-  color: whitesmoke;
-  text-decoration: none;
-  text-decoration-color: darkgray;
-}
 
-
-a1:hover {
-  color: grey;
-  text-decoration: underline;
-  text-underline-offset: 1rem;
-  text-decoration-color: rgb(181, 181, 181);
-}
 
 
 #profile-pic{
