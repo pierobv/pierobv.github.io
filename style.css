@@ -8,7 +8,9 @@
 }
 
 
-
+#page-1{
+  background-image: url(assets/background-profile.png);
+}
 
 body {
   font-family: "Poppins", sans-serif;
