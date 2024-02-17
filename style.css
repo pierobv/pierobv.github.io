@@ -282,6 +282,10 @@ section {
   border-radius: 2rem;
 }
 
+.btn.btn-color-2{
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 .btn-color-1,
 .btn-color-2 {
   border: rgb(53, 53, 53) 0.1rem solid;
