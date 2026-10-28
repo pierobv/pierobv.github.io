@@ -25,18 +25,21 @@ export function ProjectCard({ project }: { project: Project }) {
 
       <p className="project-description">{project.description[language]}</p>
 
-      {project.demo && <TerminalDemo demo={project.demo} />}
+      {/* Stacked on small screens; side by side (terminal | numbers) on wide ones (index.css). */}
+      <div className="project-body">
+        {project.demo && <TerminalDemo demo={project.demo} />}
 
-      <dl className="stats">
-        {project.stats.map((stat) => (
-          <div key={stat.label.en} className="stat">
-            <dt>{stat.label[language]}</dt>
-            <dd>
-              <CountUp value={stat.value} suffix={stat.suffix} />
-            </dd>
-          </div>
-        ))}
-      </dl>
+        <dl className="stats">
+          {project.stats.map((stat) => (
+            <div key={stat.label.en} className="stat">
+              <dt>{stat.label[language]}</dt>
+              <dd>
+                <CountUp value={stat.value} suffix={stat.suffix} />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
 
       <ul className="stack" aria-label="Stack">
         {project.stack.map((tech) => (
