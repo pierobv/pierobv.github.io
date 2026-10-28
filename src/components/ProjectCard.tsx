@@ -11,11 +11,13 @@ function trackPointer(event: PointerEvent<HTMLElement>) {
   event.currentTarget.style.setProperty('--y', `${event.clientY - rect.top}px`)
 }
 
-export function ProjectCard({ project }: { project: Project }) {
+// `compact`: the card shares the row with another one, so it uses the stacked (narrow) layout
+// even on wide screens.
+export function ProjectCard({ project, compact = false }: { project: Project; compact?: boolean }) {
   const { language, t } = useLanguage()
 
   return (
-    <article className="project" onPointerMove={trackPointer}>
+    <article className={compact ? 'project project--compact' : 'project'} onPointerMove={trackPointer}>
       <header className="project-head">
         <h3 className="project-name">{project.name}</h3>
         <a className="link arrow-link" href={project.url} target="_blank" rel="noreferrer">

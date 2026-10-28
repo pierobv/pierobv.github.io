@@ -695,6 +695,135 @@ h1 {
 }
 
 /* ---------------------------------------------------------------------------
+   Project list (Projects.tsx). Without a carousel it's a plain grid: one card,
+   or two side by side on wide screens.
+   --------------------------------------------------------------------------- */
+.projects-grid {
+  display: grid;
+  gap: 20px;
+}
+
+
+/* ---------------------------------------------------------------------------
+   Carousel. The track holds every card in a row and slides by translateX.
+   Each slide is narrower than the viewport by --peek, so the next card shows
+   at the edge (a hint that there's more). On the last position the track also
+   moves by --peek, so the previous card peeks from the left instead.
+   --------------------------------------------------------------------------- */
+.carousel {
+  --gap: 20px;
+  --peek: 56px;
+  outline: none;
+}
+
+.carousel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 16px;
+}
+
+.carousel-viewport {
+  overflow: hidden;
+  /* Lets a vertical swipe still scroll the page; horizontal moves are ours. */
+  touch-action: pan-y;
+}
+
+.carousel-track {
+  /* 100% is the track's width, both in flex-basis and in translateX. */
+  --slide: calc((100% - var(--peek) - (var(--per-view) - 1) * var(--gap)) / var(--per-view));
+  display: flex;
+  /* Each card keeps its own height. Stretching them all to the tallest one left
+     short cards with a big empty area. */
+  align-items: flex-start;
+  gap: var(--gap);
+  transform: translateX(
+    calc(var(--index) * -1 * (var(--slide) + var(--gap)) + var(--at-end) * var(--peek))
+  );
+  transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.carousel-slide {
+  position: relative;
+  flex: 0 0 var(--slide);
+  transition: opacity 0.6s var(--ease-out), scale 0.6s var(--ease-out);
+}
+
+/* Off-screen cards step back: smaller and faded. As the track moves, the
+   leaving card shrinks away and the arriving one grows into place. */
+.carousel-slide[data-visible='false'] {
+  opacity: 0.35;
+  scale: 0.94;
+}
+
+.carousel-peek {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.carousel-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font-size: 15px;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s, opacity 0.3s;
+}
+
+.carousel-button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.carousel-button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.carousel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: width 0.4s var(--ease-out), background-color 0.4s;
+}
+
+.carousel-dot[data-active='true'] {
+  width: 20px;
+  background: var(--accent);
+}
+
+/* Pushes the counter and the "next" arrow to the right. */
+.carousel-count {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--faint);
+}
+
+/* ---------------------------------------------------------------------------
    Terminal demo inside the project card (TerminalDemo.tsx).
    Dark in both themes, like a real terminal.
    --------------------------------------------------------------------------- */
@@ -954,6 +1083,55 @@ h1 {
 
   .stat dd {
     font-size: 34px;
+  }
+
+  .projects-grid[data-count='2'] {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* A card sharing the row goes back to the stacked layout: terminal on top,
+     the three numbers in a row below it. */
+  .project--compact {
+    padding: 24px;
+  }
+
+  .project--compact .project-body {
+    display: block;
+    margin: 0;
+  }
+
+  .project--compact .project-body .terminal {
+    margin-top: 20px;
+  }
+
+  .project--compact .project-body .stats {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 20px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .project--compact .project-body .stat {
+    padding: 16px 12px 16px 0;
+    border-bottom: 0;
+  }
+
+  .project--compact .project-body .stat + .stat {
+    padding-left: 14px;
+    border-left: 1px solid var(--line);
+  }
+
+  .project--compact .stat dd {
+    font-size: 26px;
+  }
+
+  /* A wide card without a terminal: the numbers take the whole row. */
+  .project-body:not(:has(.terminal)) {
+    display: block;
+  }
+
+  .project-body:not(:has(.terminal)) .stats {
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--line);
   }
 }
 

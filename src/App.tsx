@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { CopyEmail } from './components/CopyEmail'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
-import { ProjectCard } from './components/ProjectCard'
+import { Projects } from './components/Projects'
 import { ThemeSwitch } from './components/ThemeSwitch'
 import { Timeline } from './components/Timeline'
+import { withPlaceholders } from './data/placeholderProjects'
 import { projects } from './data/projects'
 import { experience } from './data/timeline'
 import { useRevealOnScroll } from './hooks/useRevealOnScroll'
@@ -16,6 +17,10 @@ const profiles = [
   { label: 'GitHub', href: 'https://github.com/pierobv' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/pierobv' },
 ]
+
+// In development, ?cards=N fills the list with placeholder projects to test the carousel.
+// In the production build import.meta.env.DEV is the constant `false`, so this is just `projects`.
+const visibleProjects = import.meta.env.DEV ? withPlaceholders(projects) : projects
 
 // Menu entries. `titleKey` is typed as a key of the dictionary, so a typo doesn't compile.
 const sections: { id: string; titleKey: 'projectsTitle' | 'experienceTitle' | 'contactTitle' }[] = [
@@ -106,9 +111,7 @@ export default function App() {
             <h2 className="section-title" id="projects-title">
               {t.projectsTitle}
             </h2>
-            {projects.map((project) => (
-              <ProjectCard key={project.name} project={project} />
-            ))}
+            <Projects projects={visibleProjects} />
           </section>
 
           <section className="section" id="experience" aria-labelledby="experience-title" data-reveal>
