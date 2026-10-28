@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type MouseEvent } from 'react'
 import { CopyEmail } from './components/CopyEmail'
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { Projects } from './components/Projects'
@@ -31,6 +31,15 @@ const sections: { id: string; titleKey: 'projectsTitle' | 'experienceTitle' | 'c
 
 // Computed once when the page loads: render functions should not read the clock.
 const year = new Date().getFullYear()
+
+// The logo's href is #top, which is the sticky header. A sticky element always looks "already
+// in view", so the browser often scrolled only a little or not at all. We scroll to 0 ourselves
+// and drop the hash from the URL; the href stays for middle-click / no-JS.
+function scrollToTop(event: MouseEvent<HTMLAnchorElement>) {
+  event.preventDefault()
+  window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+  history.replaceState(null, '', location.pathname + location.search)
+}
 
 export default function App() {
   const { language, t } = useLanguage()
@@ -66,7 +75,7 @@ export default function App() {
       {/* Sticky: stays at the top while the page scrolls. The torch / sun sits over its center. */}
       <header className="topbar" id="top">
         <div className="topbar-inner">
-          <a className="logo" href="#top">
+          <a className="logo" href="#top" onClick={scrollToTop}>
             pierobv
           </a>
           <nav className="topbar-nav" aria-label={t.navLabel}>
