@@ -24,7 +24,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <!--
       Applies the theme before React loads, so the page never flashes light before turning dark.
-      Order: choice saved by the visitor > operating system preference.
+      Dark (the torch) is the default for everyone; light only if the visitor picked it before.
     -->
     <script>
       (function () {
@@ -32,9 +32,7 @@
         try {
           theme = localStorage.getItem('theme');
         } catch (e) {}
-        if (theme !== 'light' && theme !== 'dark') {
-          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        if (theme !== 'light') theme = 'dark';
         document.documentElement.dataset.theme = theme;
       })();
     </script>

@@ -6,6 +6,7 @@ export type TimelineItem = {
   period: string
   title: Localized
   org: string
+  orgUrl: string // the company's LinkedIn page
   place: Localized
 }
 
@@ -15,12 +16,14 @@ export const experience: TimelineItem[] = [
     period: '2024',
     title: { en: 'Full-stack Developer', pt: 'Desenvolvedor Full-stack' },
     org: 'Servizi CGN',
+    orgUrl: 'https://www.linkedin.com/company/servizi-cgn-societa-benefit/',
     place: { en: 'Pordenone, Italy', pt: 'Pordenone, Itália' },
   },
   {
     period: '2022',
     title: { en: 'Backend Developer (Intern)', pt: 'Desenvolvedor Backend (estágio)' },
     org: 'Bidweb Security IT',
+    orgUrl: 'https://www.linkedin.com/company/bidweb-security-it/',
     place: { en: 'Recife, Brazil', pt: 'Recife, Brasil' },
   },
 ]
