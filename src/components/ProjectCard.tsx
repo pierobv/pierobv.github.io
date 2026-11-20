@@ -20,9 +20,13 @@ export function ProjectCard({ project, compact = false }: { project: Project; co
     <article className={compact ? 'project project--compact' : 'project'} onPointerMove={trackPointer}>
       <header className="project-head">
         <h3 className="project-name">{project.name}</h3>
-        <a className="link arrow-link" href={project.url} target="_blank" rel="noreferrer">
-          {t.viewOnGithub} <span className="arrow">↗</span>
-        </a>
+        {project.url ? (
+          <a className="link arrow-link" href={project.url} target="_blank" rel="noreferrer">
+            {t.viewOnGithub} <span className="arrow">↗</span>
+          </a>
+        ) : (
+          <span className="project-private">{t.privateRepo}</span>
+        )}
       </header>
 
       <p className="project-description">{project.description[language]}</p>

@@ -19,7 +19,7 @@ export type Demo = {
 
 export type Project = {
   name: string
-  url: string
+  url?: string // no url = private repository: the card says so instead of linking
   description: Localized
   demo?: Demo
   stats: Stat[]
@@ -62,5 +62,30 @@ export const projects: Project[] = [
       },
     ],
     stack: ['Python', 'Ollama', 'Chroma', 'BM25', 'Cross-encoder', 'Pydantic', 'FastAPI', 'pytest'],
+  },
+  {
+    // Private repository. Described by what the core does; games are one adapter, not the point.
+    name: 'gameshorts',
+    description: {
+      en: 'Local pipeline that turns long videos into vertical shorts. A game-agnostic core (transcription, scene detection, an LLM that plans the edit as validated JSON, rendering) with two adapters: recorded matches (LoL/VALORANT, with OCR of the game HUD) and narrated recaps of public-domain films. It detects the machine and picks models and video encoders to fit.',
+      pt: 'Pipeline local que transforma vídeos longos em shorts verticais. Um núcleo genérico (transcrição, detecção de cenas, um LLM que planeja a edição em JSON validado, renderização) com dois adaptadores: partidas gravadas (LoL/VALORANT, com OCR da interface do jogo) e recaps narrados de filmes de domínio público. Ele detecta a máquina e escolhe modelos e encoders de vídeo de acordo.',
+    },
+    stats: [
+      {
+        value: 93,
+        suffix: '%',
+        label: { en: 'valid edit plans from the LLM (14 test runs)', pt: 'planos de edição válidos vindos do LLM (14 execuções)' },
+      },
+      {
+        value: 100,
+        suffix: '%',
+        label: { en: 'valid after the rule-based fallback', pt: 'válidos com a regra de reserva' },
+      },
+      {
+        value: 57,
+        label: { en: 'test files, run in CI', pt: 'arquivos de teste, rodando no CI' },
+      },
+    ],
+    stack: ['Python', 'Ollama', 'Whisper', 'FFmpeg', 'OCR', 'Pydantic', 'FastAPI', 'React', 'Remotion', 'TypeScript'],
   },
 ]

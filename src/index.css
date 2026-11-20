@@ -627,6 +627,15 @@ h1 {
   color: var(--muted);
 }
 
+/* Shown instead of the GitHub link when the repository is private. */
+.project-private {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
 .project-description {
   margin: 10px 0 0;
   color: var(--muted);
@@ -700,6 +709,8 @@ h1 {
    --------------------------------------------------------------------------- */
 .projects-grid {
   display: grid;
+  /* Each card keeps its own height (grid would stretch the shorter one to match). */
+  align-items: start;
   gap: 20px;
 }
 
